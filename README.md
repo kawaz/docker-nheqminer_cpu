@@ -11,4 +11,10 @@ docker run -d -t -e WALLET=YOUR_BTC_ADDRESS kawaz/nheqminer_cpu
 docker run -d -t kawaz/nheqminer_cpu -h
 ```
 
-tty is required for nhminer_cpu ..
+tty (-t) is required for nhminer_cpu ...
+
+# Features
+
+- auto detect closer server
+- auto detect cpu count
+- small image

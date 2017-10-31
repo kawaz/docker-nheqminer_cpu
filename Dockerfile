@@ -13,10 +13,11 @@ RUN git clone --depth 1 https://github.com/nicehash/nheqminer.git && \
 FROM ubuntu:16.04
 COPY --from=BUILD /usr/bin/nheqminer_cpu /usr/bin/nheqminer /usr/bin/
 COPY --from=BUILD /build/nheqminer_cpu.dep_packages /
-RUN apt-get update && apt-get install -y $(cat /nheqminer_cpu.dep_packages) --no-install-recommends && rm -f /nheqminer_cpu.dep_packages && \
-  apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y inetutils-ping $(cat /nheqminer_cpu.dep_packages) --no-install-recommends && \
+  apt-get clean && rm -rf /var/lib/apt/lists/* /nheqminer_cpu.dep_packages
 ENV \
-  SERVER=equihash.jp.nicehash.com:3357 \
+  SERVER= \
   WALLET=361yTPdoXcBpWRJDpPJSoC2v5Ss3fYM3FL \
   WORKER=
-ENTRYPOINT [ "bash", "-c", "if [[ $# == 0 ]]; then set -- -l \"$SERVER\" -u \"$WALLET.${WORKER:-$HOSTNAME}\" -t $(grep ^processor /proc/cpuinfo | wc -l); fi; exec nice -n 18 nheqminer \"$@\"", "--" ]
+ADD bootstrap.sh bootstrap.sh
+ENTRYPOINT [ "./bootstrap.sh" ]
