@@ -19,4 +19,4 @@ ENV \
   SERVER=equihash.jp.nicehash.com:3357 \
   WALLET=361yTPdoXcBpWRJDpPJSoC2v5Ss3fYM3FL \
   WORKER=
-ENTRYPOINT [ "bash", "-c", "if [[ $# == 0 ]]; then set -- -l \"$SERVER\" -u \"$WALLET.${WORKER:-$HOSTNAME}\"; fi; exec nice -n 17 nheqminer_cpu \"$@\"", "--" ]
+ENTRYPOINT [ "bash", "-c", "if [[ $# == 0 ]]; then set -- -l \"$SERVER\" -u \"$WALLET.${WORKER:-$HOSTNAME}\" -t $(grep ^processor /proc/cpuinfo | wc -l); fi; exec nice -n 18 nheqminer \"$@\"", "--" ]
